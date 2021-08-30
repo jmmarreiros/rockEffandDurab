@@ -1,0 +1,232 @@
+---
+title: "Plots 3D data"
+author: "Joao Marreiuros and David Nora"
+date: "`r Sys.time()`"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+```{r Knitr Options, include=FALSE}
+knitr::opts_chunk$set(comment=NA, message=FALSE, indent="", error=TRUE)
+
+```
+
+---
+
+# Goal of the script
+This script reads and plots all the 3D edge reduction data
+
+```{r}
+dir_in <- "../raw_data"
+dir_out <- "../plots"
+
+```
+
+Raw data must be located in `r paste0("~/", dir_in)`.  
+Formatted data will be saved in `r paste0("~/", dir_out)`.
+The knit directory for this script is the project directory.
+
+---
+
+# Load packages
+```{r}
+library(R.utils)
+library(ggplot2)
+library(tools)
+library(tidyverse)
+library(patchwork)
+library(doBy)
+library(ggrepel)
+library(openxlsx)
+library(flextable)
+library(janitor)
+
+```
+
+
+---
+
+# Get name, path and information of the file 
+```{r}
+data_file <- list.files(dir_in, pattern = "\\.csv$", full.names = TRUE)
+md5_in <- md5sum(data_file)
+info_in <- data.frame(file = basename(names(md5_in)), checksum = md5_in, row.names = NULL)
+info_in
+```
+
+# Load data db 
+```{r}
+imp_data <- read_csv("../raw_data/3dedge.csv")
+str(imp_data)
+
+```
+
+
+# Summarize data
+
+```{r}
+
+# General overview
+
+nminmaxmeanmedsd <- function(x){
+	y <- x[!is.na(x)]
+	n_test <- length(y)
+	min_test <- min(y)
+	max_test <- max(y)
+	mean_test <- mean(y)
+ 	med_test <- median(y)
+ 	sd_test <- sd(y)
+ 	out <- c(n_test, min_test, max_test, mean_test, med_test, sd_test)
+ 	names(out) <- c("n", "min", "max", "mean", "median", "sd")
+ 	return(out)
+}
+
+num.var <- 6:length(imp_data)
+
+stats <- summaryBy(.~raw.material + cycle + ID, data=imp_data[c("raw.material","cycle", "ID", names(imp_data)[num.var])], FUN=nminmaxmeanmedsd)
+
+write_csv(stats, "../derived_data/stats.csv")
+
+
+# Summarizin number of parts per cycle, per raw material
+
+imp_data$cycle <- factor(imp_data$cycle, levels = c("0-125", "125-250", "250-500", "0-500"))
+imp_data$raw.material <- factor(imp_data$raw.material, levels = c("flint", "obsidian", "dacite", "quartzite"))
+
+parts <- imp_data %>%
+  group_by(raw.material, cycle) %>%
+  summarize(total = n()) %>%
+  pivot_wider(names_from = "cycle",
+              values_from = "total",
+              values_fill = 0) %>%
+  adorn_totals(where = c("row", "col"), fill = "") %>%
+  rename("Raw material" = raw.material)
+
+print(parts)
+
+write_csv(parts, "../derived_data/parts.csv")
+
+
+
+```
+
+# Plots sumarized data
+
+## Plot Max distance between samples
+
+```{r}
+
+# gets new order 
+stats$cycle <- factor(stats$cycle, levels = c("0-125", "125-250", "250-500", "0-500"))
+stats$raw.material <- factor(stats$raw.material, levels = c("flint", "obsidian", "dacite", "quartzite"))
+
+
+
+stats.plot <- ggplot(data = stats) +  
+              geom_point(mapping = aes(x = raw.material, y = end.max, colour = raw.material)) +
+              theme_classic() +
+              labs(colour = "Raw material", x = "Raw material", y = "Maximum distance (mm)", title = "Max distance") +
+              facet_wrap(~ cycle)
+              
+print(stats.plot)
+
+ggsave("../plots/endmax.png")
+
+```
+
+## Plot distance intervals and number of counts
+
+```{r}
+
+# filter db, only observations where distance is > 0.2 mm
+
+# gets new order 
+imp_data$cycle <- factor(imp_data$cycle, levels = c("0-125", "125-250", "250-500", "0-500"))
+imp_data$raw.material <- factor(imp_data$raw.material, levels = c("flint", "obsidian", "dacite", "quartzite"))
+
+counts.plot <-ggplot(data = imp_data) +  
+              geom_point(mapping = aes(x = end, y = value, colour = raw.material), size = 0.5) +
+              theme_classic() +
+              labs(colour = "Raw material", x = "Distance (mm)", y = "Number of parts", title = "All raw materials") +
+              facet_wrap(~ cycle)
+              
+print(counts.plot)
+
+ggsave("../plots/counts.png")
+
+# Flint
+imp_data$cycle <- factor(imp_data$cycle, levels = c("0-125", "125-250", "250-500", "0-500"))
+imp_data$raw.material <- factor(imp_data$raw.material, levels = c("flint", "obsidian", "dacite", "quartzite"))
+
+counts.plot.flt <-ggplot(subset(imp_data, raw.material=="flint")) +  
+              geom_point(mapping = aes(x = end, y = value, colour = ID), size = 0.5) +
+              theme_classic() +
+              labs(colour = "ID", x = "Distance (mm)", y = "Number of parts", title = "Flint") +
+              facet_wrap(~ cycle)
+              
+print(counts.plot.flt)
+
+ggsave("../plots/flt.png")
+
+# Quartzite
+imp_data$cycle <- factor(imp_data$cycle, levels = c("0-125", "125-250", "250-500", "0-500"))
+imp_data$raw.material <- factor(imp_data$raw.material, levels = c("flint", "obsidian", "dacite", "quartzite"))
+
+
+counts.plot.qrtz <-ggplot(subset(imp_data, raw.material=="quartzite")) +  
+              geom_point(mapping = aes(x = end, y = value, colour = ID), size = 0.5) +
+              theme_classic() +
+              labs(colour = "ID", x = "Distance (mm)", y = "Number of parts", title =  "Quarzite") +
+              facet_wrap(~ cycle)
+              
+print(counts.plot.qrtz)
+
+ggsave("../plots/qrtz.png")
+
+# Obsidian
+imp_data$cycle <- factor(imp_data$cycle, levels = c("0-125", "125-250", "250-500", "0-500"))
+imp_data$raw.material <- factor(imp_data$raw.material, levels = c("flint", "obsidian", "dacite", "quartzite"))
+
+
+counts.plot.obs <-ggplot(subset(imp_data, raw.material=="obsidian")) +  
+              geom_point(mapping = aes(x = end, y = value, colour = ID), size = 0.5) +
+              theme_classic() +
+              labs(colour = "ID", x = "Distance (mm)", y = "Number of parts", title = "Obsidian") +
+              facet_wrap(~ cycle)
+              
+print(counts.plot.obs)
+
+ggsave("../plots/obs.png")
+
+# Dacite
+imp_data$cycle <- factor(imp_data$cycle, levels = c("0-125", "125-250", "250-500", "0-500"))
+imp_data$raw.material <- factor(imp_data$raw.material, levels = c("flint", "obsidian", "dacite", "quartzite"))
+
+
+counts.plot.dac <-ggplot(subset(imp_data, raw.material=="dacite")) +  
+              geom_point(mapping = aes(x = end, y = value, colour = ID), size = 0.5) +
+              theme_classic() +
+              labs(colour = "ID", x = "Distance (mm)", y = "Number of parts", title = "Dacite") +
+              facet_wrap(~ cycle)
+              
+print(counts.plot.dac)
+
+ggsave("../plots/dac.png")
+
+```
+
+---
+
+# sessionInfo() and RStudio version
+
+```{r}
+sessionInfo()
+
+```
+
+---
+
+END OF SCRIPT
+

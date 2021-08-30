@@ -1,8 +1,11 @@
 ---
-title: "Plots_aVSn-Inotec"
-author: "Lisa Schunk"
+title: "Plots_inotec_data"
+author: "Joao Marreiuros and David Nora"
 date: "`r Sys.time()`"
-output: word_document
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
 ---
 
 ```{r Knitr Options, include=FALSE}
@@ -10,18 +13,16 @@ knitr::opts_chunk$set(comment=NA, message=FALSE, indent="", error=TRUE)
 
 ```
 
+---
 
 # Goal of the script
-This script plots  sensor data in order to visualizes the measurements 
-recorded throughout the tool function experiment.  
-Variables of interest are: 
-* Penetration depth 
-
-
+This script plots all sensor data in order to visualizes the measurements 
+recorded throughout the tool function experiment.
+In this study the variable of interest is the *Penetration depth* 
 
 ```{r}
-dir_in <- "analysis/derived_data/aVSn/"
-dir_out <- "analysis/plots"
+dir_in <- "../derived_data"
+dir_out <- "../plots"
 
 ```
 
@@ -53,21 +54,17 @@ library(openxlsx)
 data_file <- list.files(dir_in, pattern = "\\.Rbin$", full.names = TRUE)
 md5_in <- md5sum(data_file)
 info_in <- data.frame(file = basename(names(md5_in)), checksum = md5_in, row.names = NULL)
-
-```
-
-
-The checksum (MD5 hashes) of the imported file is:  
-```{r, echo = FALSE}
 info_in
-
 ```
-
 
 # Load data into R object
 ```{r}
 imp_data <- loadObject(data_file)
 str(imp_data)
+
+# replace "stroke" by "cycle"
+colnames(imp_data)[colnames(imp_data) == "Stroke"] <- "Cycle"
+
 
 ```
 
@@ -76,58 +73,9 @@ The imported file is: "`r paste0("~/", data_file)`"
 
 
 # Plot each of the selected numeric variable 
-## Plots showing the strokes as lines 
-```{r}
-# plots all 2000 strokes per sample divided by 40 
-# splits the data in the individual 24 samples
-sp <- split(imp_data, imp_data[["Sample"]])
-
-
-for (i in seq_along(sp)) {
-  # creates a sequence of every ~ 50th strokes 
-  seq_st <- seq(1, length(unique(sp[[i]][["Stroke"]])), by = 40) %>% 
-            c(max(unique(sp[[i]][["Stroke"]])))
-  dat_i_all <- sp[[i]] %>% 
-               filter(Stroke %in% seq_st)
-  range_depth <- range(dat_i_all[["Depth"]])
-  p1 <- ggplot(data = dat_i_all, aes(x = Step, y = Depth, colour = Stroke)) +
-        geom_line(aes(group = Stroke), alpha = 0.3) + 
-        labs(x = "Step", y = "Depth (mm)") + ylab(NULL) +
-        # reverses the legend starting with 0 going to 2000 strokes 
-        scale_colour_continuous(trans = "reverse") + 
-        coord_cartesian(ylim = range_depth) +
-        # changes the 'Step-number' in the x-legend  
-        scale_x_continuous(breaks=c(1, 4, 7, 10)) +
-	      theme_classic()
-       
-# plots only the first 50 strokes per sample  
-  dat_i_50 <- sp[[i]] %>% 
-              # takes only the first 50 strokes per sample
-              filter(Stroke %in% 1:50)
-  p2 <- ggplot(data = dat_i_50) +
-        geom_line(aes(x = Step, y = Depth, colour = Stroke, group = Stroke), alpha = 0.3) + 
-        labs(x = "Step", y = "Depth (mm)") + 
-        scale_colour_continuous(trans = "reverse") + 
-        coord_cartesian(ylim = range_depth) +
-        scale_x_continuous(breaks=c(1, 4, 7, 10)) +
-	      theme_classic()
-  # patchwork plot
-  p <- p2 + p1 + plot_annotation(title = names(sp)[i]) 
-  print(p)
-
-  # save to PDF
-  file_out <- paste0(file_path_sans_ext(info_in[["file"]]), "_aVSn_plot_", 
-	            names(sp)[i], ".pdf")
-  ggsave(filename = file_out, plot = p, path = dir_out, 
-         device = "pdf")
-}
-
-```
-
 
 
 ## Plot showing the absolut penetration depths 
-### Plot of all samples 
 ```{r}
 # calculates the absolute depths reached per sample
 abs.depth <- function(x) {
@@ -144,18 +92,12 @@ str(depth)
 
 
 depth[["Contact_material"]] <- factor(depth[["Contact_material"]])
-# GrandBudapest1 = c("#F1BB7B", "#FD6467", "#5B1A18", "#D67236")
-custom.col3 <- data.frame(type = levels(depth$Contact_material), 
-                         col = c("#F1BB7B", "#FD6467", "#5B1A18", "#D67236")) 
-depth$col <- custom.col3[depth$Contact_material, "col"]
-
 
 # plots all depth points in one facet plot (contact material together)
 p3 <- ggplot(data = depth, aes(x = Contact_material, 
                                y = Depth.abs.depth, colour = 
-                                 Contact_material)) +
+                                 Raw_material)) +
        geom_point() + labs(y = "Absolute depth (mm)") +
-       scale_colour_manual(values = custom.col3$col) + 
        facet_wrap(~Raw_material, strip.position = "bottom") +
        # avoids overplotting of the labels (sample IDs)
        geom_text_repel(aes(label=Sample), size = 2, 
@@ -173,26 +115,19 @@ print(p3)
 
 # save to PDF
 file_out <- paste0(file_path_sans_ext(info_in[["file"]]), 
-                   "_aVSn_P3_depth_plot_", ".pdf")
+                   "_depth_a_plot_", ".pdf")
 ggsave(filename = file_out, plot = p3, path = dir_out, 
        device = "pdf", 
        width = 25, height = 17, units = "cm")
 
 
 depth[["Raw_material"]] <- factor(depth[["Raw_material"]])
-#Royal1 = c("#899DA4", "#C93312", "#FAEFD1", "#DC863B")
-custom.col7 <- data.frame(type = levels(depth$Raw_material), 
-                         col = c("#899DA4", "#DC863B")) 
-depth$col <- custom.col7[depth$Raw_material, "col"]
-
 
 # plots all depth points in one facet plot (contact material separated)
 p4 <- ggplot(data = depth, aes(x = Contact_material, 
                                y = Depth.abs.depth, colour = 
                                  Raw_material)) +
        geom_point() + labs(y = "Absolute depth (mm)") +
-       scale_colour_manual(values = custom.col7$col) + 
-       facet_wrap(~Contact_material, strip.position = "bottom") +
        # avoids overplotting of the labels (sample IDs)
        geom_text_repel(aes(label=Sample), size = 2, 
                        nudge_x = -0.4, 
@@ -210,10 +145,150 @@ print(p4)
 
 # save to PDF
 file_out <- paste0(file_path_sans_ext(info_in[["file"]]), 
-                   "_aVSn_P4_depth_plot_", ".pdf")
+                   "_depth_b_plot_", ".pdf")
 ggsave(filename = file_out, plot = p4, path = dir_out, 
        device = "pdf", 
        width = 25, height = 17, units = "cm")
+
+```
+
+## All sensor data
+```{r}
+
+sp <- split(imp_data, imp_data[["Sample"]])
+
+for (i in seq_along(sp)) {
+  # creates a sequence of every ~ 50th strokes 
+  seq_st <- seq(1, length(unique(sp[[i]][["Cycle"]])), by = 40) %>% 
+            c(max(unique(sp[[i]][["Cycle"]])))
+  dat_i_all <- sp[[i]] %>% 
+               filter(Cycle %in% seq_st)
+  range_force_all <- range(dat_i_all[["Force"]])
+  range_friction_all <- range(dat_i_all[["Friction"]])
+  range_depth_all <- range(dat_i_all[["Depth"]])
+  range_velocity_all <- range(dat_i_all[["Velocity"]])
+       
+  
+    p1b <- ggplot(data = dat_i_all) +
+        geom_line(aes(x = Step, y = Force, colour = Cycle, group = Cycle), alpha = 0.3) + 
+        labs(x = "Step", y = "Force [N]") + 
+        scale_colour_continuous(trans = "reverse") + 
+        coord_cartesian(ylim = range_force_all) +
+        scale_x_continuous(breaks=c(1, 4, 7, 10, 15, 20, 25)) +
+	      theme_classic()
+  print(p1b)
+  
+    p2b <- ggplot(data = dat_i_all) +
+        geom_line(aes(x = Step, y = Friction, colour = Cycle, group = Cycle), alpha = 0.3) + 
+        labs(x = "Step", y = "Friction [N]") + 
+        scale_colour_continuous(trans = "reverse") + 
+        coord_cartesian(ylim = range_friction_all) +
+        scale_x_continuous(breaks=c(1, 4, 7, 10, 15, 20, 25)) +
+	      theme_classic()
+  print(p2b)
+  
+  p3b <- ggplot(data = dat_i_all) +
+        geom_line(aes(x = Step, y = Depth, colour = Cycle, group = Cycle), alpha = 0.3) + 
+        labs(x = "Step", y = "Depth [mm]") + 
+        scale_colour_continuous(trans = "reverse") + 
+        coord_cartesian(ylim = range_depth_all) +
+        scale_x_continuous(breaks=c(1, 4, 7, 10, 15, 20, 25)) +
+	      theme_classic()
+  print(p3b)
+  
+    p4b <- ggplot(data = dat_i_all) +
+        geom_line(aes(x = Step, y = Velocity, colour = Cycle, group = Cycle), alpha = 0.3) + 
+        labs(x = "Step", y = "Velocity [mm/s]") + 
+        scale_colour_continuous(trans = "reverse") + 
+        coord_cartesian(ylim = range_velocity_all) +
+        scale_x_continuous(breaks=c(1, 4, 7, 10, 15, 20, 25)) +
+	      theme_classic()
+  print(p4b)
+  
+  # patchwork plot
+  pb <- p1b + p2b + p3b + p4b + plot_annotation(title = names(sp)[i]) + plot_layout(ncol = 1, guides = "collect")
+  print(pb)
+  # save to PDF
+  file_out <- paste0(file_path_sans_ext(info_in[["file"]]), "_sensors_plot_", 
+	                   names(sp)[i], ".pdf")
+  ggsave(filename = file_out, plot = pb, path = dir_out, device = "pdf")
+} 
+
+
+
+
+```
+
+
+## *Penetration depth* plots showing the strokes as lines 
+```{r}
+# plots all strokes per sample divided by 40 
+# splits the data in the individual 24 samples
+sp <- split(imp_data, imp_data[["Sample"]])
+
+
+for (i in seq_along(sp)) {
+  # creates a sequence of every ~ 50th cycles 
+  seq_st <- seq(1, length(unique(sp[[i]][["Cycle"]])), by = 40) %>% 
+            c(max(unique(sp[[i]][["Cycle"]])))
+  dat_i_all <- sp[[i]] %>% 
+               filter(Cycle %in% 1:500)
+  range_depth <- range(dat_i_all[["Depth"]])
+  p1 <- ggplot(data = dat_i_all, aes(x = Step, y = Depth, colour = Cycle)) +
+        geom_line(aes(group = Cycle), alpha = 0.3) + 
+        labs(x = "Step", y = "Depth (mm)") + ylab(NULL) +
+        # reverses the legend starting with 0 going to 2000 strokes 
+        scale_colour_continuous(trans = "reverse") + 
+        coord_cartesian(ylim = range_depth) +
+        # changes the 'Step-number' in the x-legend  
+        theme_classic()
+       
+# plots only the first 125 cycles per sample  
+  dat_i_250 <- sp[[i]] %>% 
+              # takes only the first 50 cycles per sample
+              filter(Cycle %in% 1:125)
+  range_depth <- range(dat_i_all[["Depth"]])
+  p2 <- ggplot(data = dat_i_250) +
+        geom_line(aes(x = Step, y = Depth, colour = Cycle, group = Cycle), alpha = 0.3) + 
+        labs(x = "Step", y = "Depth (mm)") + 
+        scale_colour_continuous(trans = "reverse") + 
+        coord_cartesian(ylim = range_depth) +
+	      theme_classic()
+
+# plots only between 125 to 205 cycles per sample  
+  dat_i_500 <- sp[[i]] %>% 
+              # takes only the first 50 cycles per sample
+              filter(Cycle %in% 126:250)
+  range_depth <- range(dat_i_all[["Depth"]])
+  p3 <- ggplot(data = dat_i_500) +
+        geom_line(aes(x = Step, y = Depth, colour = Cycle, group = Cycle), alpha = 0.3) + 
+        labs(x = "Step", y = "Depth (mm)") + 
+        scale_colour_continuous(trans = "reverse") + 
+        coord_cartesian(ylim = range_depth) +
+	      theme_classic()
+  
+  # plots only between 250 to 500 cycles per sample  
+  dat_i_500 <- sp[[i]] %>% 
+              # takes only the first 50 cycles per sample
+              filter(Cycle %in% 251:500)
+  range_depth <- range(dat_i_all[["Depth"]])
+  p4 <- ggplot(data = dat_i_500) +
+        geom_line(aes(x = Step, y = Depth, colour = Cycle, group = Cycle), alpha = 0.3) + 
+        labs(x = "Step", y = "Depth (mm)") + 
+        scale_colour_continuous(trans = "reverse") + 
+        coord_cartesian(ylim = range_depth) +
+	      theme_classic()  
+  
+  # patchwork plot
+  p <- p2 + p3 + p4 + p1 +plot_annotation(title = names(sp)[i]) 
+  print(p)
+
+  # save to PDF
+  file_out <- paste0(file_path_sans_ext(info_in[["file"]]), "_depth_plot_", 
+	            names(sp)[i], ".pdf")
+  ggsave(filename = file_out, plot = p, path = dir_out, 
+         device = "pdf")
+}
 
 ```
 
@@ -238,9 +313,6 @@ write.xlsx(list(depth = depth, depth_good = depth_good),
 sessionInfo()
 
 ```
-
-RStudio version `r readLines("analysis/scripts/RStudioVersion.txt", n = 1)`.
-
 
 ---
 

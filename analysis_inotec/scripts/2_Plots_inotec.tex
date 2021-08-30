@@ -1,0 +1,546 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Plots\_inotec\_data},
+  pdfauthor={Joao Marreiuros and David Nora},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Plots\_inotec\_data}
+\author{Joao Marreiuros and David Nora}
+\date{2021-07-23 09:50:23}
+
+\begin{document}
+\maketitle
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{goal-of-the-script}{%
+\section{Goal of the script}\label{goal-of-the-script}}
+
+This script plots all sensor data in order to visualizes the
+measurements recorded throughout the tool function experiment. In this
+study the variable of interest is the \emph{Penetration depth}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dir\_in }\OtherTok{\textless{}{-}} \StringTok{"../derived\_data"}
+\NormalTok{dir\_out }\OtherTok{\textless{}{-}} \StringTok{"../plots"}
+\end{Highlighting}
+\end{Shaded}
+
+Raw data must be located in \textasciitilde/../derived\_data.\\
+Formatted data will be saved in \textasciitilde/../plots. The knit
+directory for this script is the project directory.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{load-packages}{%
+\section{Load packages}\label{load-packages}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(R.utils)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(tools)}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(patchwork)}
+\FunctionTok{library}\NormalTok{(doBy)}
+\FunctionTok{library}\NormalTok{(ggrepel)}
+\FunctionTok{library}\NormalTok{(openxlsx)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{get-name-path-and-information-of-the-file}{%
+\section{Get name, path and information of the
+file}\label{get-name-path-and-information-of-the-file}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_file }\OtherTok{\textless{}{-}} \FunctionTok{list.files}\NormalTok{(dir\_in, }\AttributeTok{pattern =} \StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{.Rbin$"}\NormalTok{, }\AttributeTok{full.names =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{md5\_in }\OtherTok{\textless{}{-}} \FunctionTok{md5sum}\NormalTok{(data\_file)}
+\NormalTok{info\_in }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{file =} \FunctionTok{basename}\NormalTok{(}\FunctionTok{names}\NormalTok{(md5\_in)), }\AttributeTok{checksum =}\NormalTok{ md5\_in, }\AttributeTok{row.names =} \ConstantTok{NULL}\NormalTok{)}
+\NormalTok{info\_in}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+        file                         checksum
+1 sampl.Rbin bf8d129baa08cae6c22ff43825d68472
+\end{verbatim}
+
+\hypertarget{load-data-into-r-object}{%
+\section{Load data into R object}\label{load-data-into-r-object}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{imp\_data }\OtherTok{\textless{}{-}} \FunctionTok{loadObject}\NormalTok{(data\_file)}
+\FunctionTok{str}\NormalTok{(imp\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+'data.frame':   101536 obs. of  10 variables:
+ $ Sample          : chr  "DAC3-2" "DAC3-2" "DAC3-2" "DAC3-2" ...
+ $ Raw_material    : chr  "Dacite" "Dacite" "Dacite" "Dacite" ...
+ $ Contact_material: chr  "wood" "wood" "wood" "wood" ...
+ $ Stroke          : num  1 1 1 1 1 1 1 1 1 1 ...
+ $ Step            : num  1 2 3 4 5 6 7 8 9 10 ...
+ $ Force           : num  -58.8 -59.3 -61.6 -56.7 -58 ...
+ $ Friction        : num  -2.46 -9.88 -31.78 -53.99 -64.34 ...
+ $ Depth           : num  13.8 13.8 13.6 13.3 13.1 ...
+ $ Position        : num  260 263 297 356 387 ...
+ $ Velocity        : num  -0.0031 106.7299 502.972 551.2161 162.7834 ...
+\end{verbatim}
+
+The imported file is: ``\textasciitilde/../derived\_data/sampl.Rbin''
+
+\hypertarget{plot-each-of-the-selected-numeric-variable}{%
+\section{Plot each of the selected numeric
+variable}\label{plot-each-of-the-selected-numeric-variable}}
+
+\hypertarget{all-sensor-data}{%
+\subsection{All sensor data}\label{all-sensor-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sp }\OtherTok{\textless{}{-}} \FunctionTok{split}\NormalTok{(imp\_data, imp\_data[[}\StringTok{"Sample"}\NormalTok{]])}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{seq\_along}\NormalTok{(sp)) \{}
+  \CommentTok{\# creates a sequence of every \textasciitilde{} 50th strokes }
+\NormalTok{  seq\_st }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(sp[[i]][[}\StringTok{"Stroke"}\NormalTok{]])), }\AttributeTok{by =} \DecValTok{40}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+            \FunctionTok{c}\NormalTok{(}\FunctionTok{max}\NormalTok{(}\FunctionTok{unique}\NormalTok{(sp[[i]][[}\StringTok{"Stroke"}\NormalTok{]])))}
+\NormalTok{  dat\_i\_all }\OtherTok{\textless{}{-}}\NormalTok{ sp[[i]] }\SpecialCharTok{\%\textgreater{}\%} 
+               \FunctionTok{filter}\NormalTok{(Stroke }\SpecialCharTok{\%in\%}\NormalTok{ seq\_st)}
+\NormalTok{  range\_force\_all }\OtherTok{\textless{}{-}} \FunctionTok{range}\NormalTok{(dat\_i\_all[[}\StringTok{"Force"}\NormalTok{]])}
+\NormalTok{  range\_friction\_all }\OtherTok{\textless{}{-}} \FunctionTok{range}\NormalTok{(dat\_i\_all[[}\StringTok{"Friction"}\NormalTok{]])}
+\NormalTok{  range\_depth\_all }\OtherTok{\textless{}{-}} \FunctionTok{range}\NormalTok{(dat\_i\_all[[}\StringTok{"Depth"}\NormalTok{]])}
+\NormalTok{  range\_velocity\_all }\OtherTok{\textless{}{-}} \FunctionTok{range}\NormalTok{(dat\_i\_all[[}\StringTok{"Velocity"}\NormalTok{]])}
+       
+  
+\NormalTok{    p1b }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ dat\_i\_all) }\SpecialCharTok{+}
+        \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Step, }\AttributeTok{y =}\NormalTok{ Force, }\AttributeTok{colour =}\NormalTok{ Stroke, }\AttributeTok{group =}\NormalTok{ Stroke), }\AttributeTok{alpha =} \FloatTok{0.3}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Step"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Force [N]"}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{scale\_colour\_continuous}\NormalTok{(}\AttributeTok{trans =} \StringTok{"reverse"}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{coord\_cartesian}\NormalTok{(}\AttributeTok{ylim =}\NormalTok{ range\_force\_all) }\SpecialCharTok{+}
+        \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{25}\NormalTok{)) }\SpecialCharTok{+}
+          \FunctionTok{theme\_classic}\NormalTok{()}
+  \FunctionTok{print}\NormalTok{(p1b)}
+  
+\NormalTok{    p2b }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ dat\_i\_all) }\SpecialCharTok{+}
+        \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Step, }\AttributeTok{y =}\NormalTok{ Friction, }\AttributeTok{colour =}\NormalTok{ Stroke, }\AttributeTok{group =}\NormalTok{ Stroke), }\AttributeTok{alpha =} \FloatTok{0.3}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Step"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Friction [N]"}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{scale\_colour\_continuous}\NormalTok{(}\AttributeTok{trans =} \StringTok{"reverse"}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{coord\_cartesian}\NormalTok{(}\AttributeTok{ylim =}\NormalTok{ range\_friction\_all) }\SpecialCharTok{+}
+        \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{25}\NormalTok{)) }\SpecialCharTok{+}
+          \FunctionTok{theme\_classic}\NormalTok{()}
+  \FunctionTok{print}\NormalTok{(p2b)}
+  
+\NormalTok{  p3b }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ dat\_i\_all) }\SpecialCharTok{+}
+        \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Step, }\AttributeTok{y =}\NormalTok{ Depth, }\AttributeTok{colour =}\NormalTok{ Stroke, }\AttributeTok{group =}\NormalTok{ Stroke), }\AttributeTok{alpha =} \FloatTok{0.3}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Step"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Depth [mm]"}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{scale\_colour\_continuous}\NormalTok{(}\AttributeTok{trans =} \StringTok{"reverse"}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{coord\_cartesian}\NormalTok{(}\AttributeTok{ylim =}\NormalTok{ range\_depth\_all) }\SpecialCharTok{+}
+        \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{25}\NormalTok{)) }\SpecialCharTok{+}
+          \FunctionTok{theme\_classic}\NormalTok{()}
+  \FunctionTok{print}\NormalTok{(p3b)}
+  
+\NormalTok{    p4b }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ dat\_i\_all) }\SpecialCharTok{+}
+        \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Step, }\AttributeTok{y =}\NormalTok{ Velocity, }\AttributeTok{colour =}\NormalTok{ Stroke, }\AttributeTok{group =}\NormalTok{ Stroke), }\AttributeTok{alpha =} \FloatTok{0.3}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Step"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Velocity [mm/s]"}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{scale\_colour\_continuous}\NormalTok{(}\AttributeTok{trans =} \StringTok{"reverse"}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{coord\_cartesian}\NormalTok{(}\AttributeTok{ylim =}\NormalTok{ range\_velocity\_all) }\SpecialCharTok{+}
+        \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{25}\NormalTok{)) }\SpecialCharTok{+}
+          \FunctionTok{theme\_classic}\NormalTok{()}
+  \FunctionTok{print}\NormalTok{(p4b)}
+  
+  \CommentTok{\# patchwork plot}
+\NormalTok{  pb }\OtherTok{\textless{}{-}}\NormalTok{ p1b }\SpecialCharTok{+}\NormalTok{ p2b }\SpecialCharTok{+}\NormalTok{ p3b }\SpecialCharTok{+}\NormalTok{ p4b }\SpecialCharTok{+} \FunctionTok{plot\_annotation}\NormalTok{(}\AttributeTok{title =} \FunctionTok{names}\NormalTok{(sp)[i]) }\SpecialCharTok{+} \FunctionTok{plot\_layout}\NormalTok{(}\AttributeTok{ncol =} \DecValTok{1}\NormalTok{, }\AttributeTok{guides =} \StringTok{"collect"}\NormalTok{)}
+  \FunctionTok{print}\NormalTok{(p)}
+  \CommentTok{\# save to PDF}
+\NormalTok{  file\_out }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\FunctionTok{file\_path\_sans\_ext}\NormalTok{(info\_in[[}\StringTok{"file"}\NormalTok{]]), }\StringTok{"\_sensors\_plot\_"}\NormalTok{, }
+                       \FunctionTok{names}\NormalTok{(sp)[i], }\StringTok{".pdf"}\NormalTok{)}
+  \FunctionTok{ggsave}\NormalTok{(}\AttributeTok{filename =}\NormalTok{ file\_out, }\AttributeTok{plot =}\NormalTok{ pb, }\AttributeTok{path =}\NormalTok{ dir\_out, }\AttributeTok{device =} \StringTok{"pdf"}\NormalTok{)}
+\NormalTok{\} }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-5-1.pdf}
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-5-2.pdf}
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-5-3.pdf}
+
+\begin{verbatim}
+Error in print(p): object 'p' not found
+\end{verbatim}
+
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-5-4.pdf}
+
+\hypertarget{penetration-depth-plots-showing-the-strokes-as-lines}{%
+\subsection{\texorpdfstring{\emph{Penetration depth} plots showing the
+strokes as
+lines}{Penetration depth plots showing the strokes as lines}}\label{penetration-depth-plots-showing-the-strokes-as-lines}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# plots all strokes per sample divided by 40 }
+\CommentTok{\# splits the data in the individual 24 samples}
+\NormalTok{sp }\OtherTok{\textless{}{-}} \FunctionTok{split}\NormalTok{(imp\_data, imp\_data[[}\StringTok{"Sample"}\NormalTok{]])}
+
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{seq\_along}\NormalTok{(sp)) \{}
+  \CommentTok{\# creates a sequence of every \textasciitilde{} 50th strokes }
+\NormalTok{  seq\_st }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(sp[[i]][[}\StringTok{"Stroke"}\NormalTok{]])), }\AttributeTok{by =} \DecValTok{40}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+            \FunctionTok{c}\NormalTok{(}\FunctionTok{max}\NormalTok{(}\FunctionTok{unique}\NormalTok{(sp[[i]][[}\StringTok{"Stroke"}\NormalTok{]])))}
+\NormalTok{  dat\_i\_all }\OtherTok{\textless{}{-}}\NormalTok{ sp[[i]] }\SpecialCharTok{\%\textgreater{}\%} 
+               \FunctionTok{filter}\NormalTok{(Stroke }\SpecialCharTok{\%in\%}\NormalTok{ seq\_st)}
+\NormalTok{  range\_depth }\OtherTok{\textless{}{-}} \FunctionTok{range}\NormalTok{(dat\_i\_all[[}\StringTok{"Depth"}\NormalTok{]])}
+\NormalTok{  p1 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ dat\_i\_all, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Step, }\AttributeTok{y =}\NormalTok{ Depth, }\AttributeTok{colour =}\NormalTok{ Stroke)) }\SpecialCharTok{+}
+        \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{group =}\NormalTok{ Stroke), }\AttributeTok{alpha =} \FloatTok{0.3}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Step"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Depth (mm)"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{ylab}\NormalTok{(}\ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{+}
+        \CommentTok{\# reverses the legend starting with 0 going to 2000 strokes }
+        \FunctionTok{scale\_colour\_continuous}\NormalTok{(}\AttributeTok{trans =} \StringTok{"reverse"}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{coord\_cartesian}\NormalTok{(}\AttributeTok{ylim =}\NormalTok{ range\_depth) }\SpecialCharTok{+}
+        \CommentTok{\# changes the \textquotesingle{}Step{-}number\textquotesingle{} in the x{-}legend  }
+        \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{25}\NormalTok{)) }\SpecialCharTok{+}
+          \FunctionTok{theme\_classic}\NormalTok{()}
+       
+\CommentTok{\# plots only the first 50 strokes per sample  }
+\NormalTok{  dat\_i\_50 }\OtherTok{\textless{}{-}}\NormalTok{ sp[[i]] }\SpecialCharTok{\%\textgreater{}\%} 
+              \CommentTok{\# takes only the first 50 strokes per sample}
+              \FunctionTok{filter}\NormalTok{(Stroke }\SpecialCharTok{\%in\%} \DecValTok{1}\SpecialCharTok{:}\DecValTok{50}\NormalTok{)}
+\NormalTok{  p2 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ dat\_i\_50) }\SpecialCharTok{+}
+        \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Step, }\AttributeTok{y =}\NormalTok{ Depth, }\AttributeTok{colour =}\NormalTok{ Stroke, }\AttributeTok{group =}\NormalTok{ Stroke), }\AttributeTok{alpha =} \FloatTok{0.3}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Step"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Depth (mm)"}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{scale\_colour\_continuous}\NormalTok{(}\AttributeTok{trans =} \StringTok{"reverse"}\NormalTok{) }\SpecialCharTok{+} 
+        \FunctionTok{coord\_cartesian}\NormalTok{(}\AttributeTok{ylim =}\NormalTok{ range\_depth) }\SpecialCharTok{+}
+        \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{25}\NormalTok{)) }\SpecialCharTok{+}
+          \FunctionTok{theme\_classic}\NormalTok{()}
+  \CommentTok{\# patchwork plot}
+\NormalTok{  p }\OtherTok{\textless{}{-}}\NormalTok{ p2 }\SpecialCharTok{+}\NormalTok{ p1 }\SpecialCharTok{+} \FunctionTok{plot\_annotation}\NormalTok{(}\AttributeTok{title =} \FunctionTok{names}\NormalTok{(sp)[i]) }
+  \FunctionTok{print}\NormalTok{(p)}
+
+  \CommentTok{\# save to PDF}
+\NormalTok{  file\_out }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\FunctionTok{file\_path\_sans\_ext}\NormalTok{(info\_in[[}\StringTok{"file"}\NormalTok{]]), }\StringTok{"\_depth\_plot\_"}\NormalTok{, }
+                \FunctionTok{names}\NormalTok{(sp)[i], }\StringTok{".pdf"}\NormalTok{)}
+  \FunctionTok{ggsave}\NormalTok{(}\AttributeTok{filename =}\NormalTok{ file\_out, }\AttributeTok{plot =}\NormalTok{ p, }\AttributeTok{path =}\NormalTok{ dir\_out, }
+         \AttributeTok{device =} \StringTok{"pdf"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-6-1.pdf}
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-6-2.pdf}
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-6-3.pdf}
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-6-4.pdf}
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-6-5.pdf}
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-6-6.pdf}
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-6-7.pdf}
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-6-8.pdf}
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-6-9.pdf}
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-6-10.pdf}
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-6-11.pdf}
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-6-12.pdf}
+
+\hypertarget{plot-showing-the-absolut-penetration-depths}{%
+\subsection{Plot showing the absolut penetration
+depths}\label{plot-showing-the-absolut-penetration-depths}}
+
+\hypertarget{plot-of-all-samples}{%
+\subsubsection{Plot of all samples}\label{plot-of-all-samples}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# calculates the absolute depths reached per sample}
+\NormalTok{abs.depth }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}
+\NormalTok{  noNA }\OtherTok{\textless{}{-}}\NormalTok{ x[}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(x)]}
+\NormalTok{  out }\OtherTok{\textless{}{-}} \FunctionTok{abs}\NormalTok{(}\FunctionTok{min}\NormalTok{(noNA) }\SpecialCharTok{{-}} \FunctionTok{max}\NormalTok{(noNA))}
+\NormalTok{\}}
+
+\CommentTok{\# Define grouping variable and compute the summary statistics }
+\NormalTok{depth }\OtherTok{\textless{}{-}} \FunctionTok{summaryBy}\NormalTok{(Depth }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Sample}\SpecialCharTok{+}\NormalTok{Raw\_material}\SpecialCharTok{+}\NormalTok{Contact\_material, }
+                  \AttributeTok{data=}\NormalTok{imp\_data, }
+                  \AttributeTok{FUN=}\NormalTok{abs.depth)}
+
+\FunctionTok{str}\NormalTok{(depth)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+'data.frame':   12 obs. of  4 variables:
+ $ Sample          : chr  "DAC3-2" "DAC3-4" "DAC3-6" "FLT10-2" ...
+ $ Raw_material    : chr  "Dacite" "Dacite" "Dacite" "Flint" ...
+ $ Contact_material: chr  "wood" "wood" "wood" "wood" ...
+ $ Depth.abs.depth : num  2.935 2.501 0.867 2.88 3.889 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{depth[[}\StringTok{"Contact\_material"}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(depth[[}\StringTok{"Contact\_material"}\NormalTok{]])}
+\CommentTok{\# GrandBudapest1 = c("\#F1BB7B", "\#FD6467", "\#5B1A18", "\#D67236")}
+\NormalTok{custom.col3 }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{type =} \FunctionTok{levels}\NormalTok{(depth}\SpecialCharTok{$}\NormalTok{Contact\_material), }
+                         \AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"\#F1BB7B"}\NormalTok{, }\StringTok{"\#FD6467"}\NormalTok{, }\StringTok{"\#5B1A18"}\NormalTok{, }\StringTok{"\#D67236"}\NormalTok{)) }
+\NormalTok{depth}\SpecialCharTok{$}\NormalTok{col }\OtherTok{\textless{}{-}}\NormalTok{ custom.col3[depth}\SpecialCharTok{$}\NormalTok{Contact\_material, }\StringTok{"col"}\NormalTok{]}
+
+
+\CommentTok{\# plots all depth points in one facet plot (contact material together)}
+\NormalTok{p3 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ depth, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Contact\_material, }
+                               \AttributeTok{y =}\NormalTok{ Depth.abs.depth, }\AttributeTok{colour =} 
+\NormalTok{                                 Contact\_material)) }\SpecialCharTok{+}
+       \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Absolute depth (mm)"}\NormalTok{) }\SpecialCharTok{+}
+       \FunctionTok{scale\_colour\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ custom.col3}\SpecialCharTok{$}\NormalTok{col) }\SpecialCharTok{+} 
+       \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{Raw\_material, }\AttributeTok{strip.position =} \StringTok{"bottom"}\NormalTok{) }\SpecialCharTok{+}
+       \CommentTok{\# avoids overplotting of the labels (sample IDs)}
+       \FunctionTok{geom\_text\_repel}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label=}\NormalTok{Sample), }\AttributeTok{size =} \DecValTok{2}\NormalTok{, }
+                       \AttributeTok{nudge\_x =} \SpecialCharTok{{-}}\FloatTok{0.4}\NormalTok{, }
+                       \AttributeTok{segment.size =} \FloatTok{0.1}\NormalTok{, }\AttributeTok{force =} \DecValTok{2}\NormalTok{, }
+                       \AttributeTok{seed =} \DecValTok{123}\NormalTok{) }\SpecialCharTok{+}
+       \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{trans =} \StringTok{"reverse"}\NormalTok{) }\SpecialCharTok{+}
+       \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{position =}\StringTok{"top"}\NormalTok{) }\SpecialCharTok{+}
+       \CommentTok{\# removes the "\_" between "Contact\_material in the legend }
+       \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Contact material"}\NormalTok{) }\SpecialCharTok{+} 
+         \FunctionTok{theme\_classic}\NormalTok{() }\SpecialCharTok{+}
+       \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{) }
+      
+\FunctionTok{print}\NormalTok{(p3)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# save to PDF}
+\NormalTok{file\_out }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\FunctionTok{file\_path\_sans\_ext}\NormalTok{(info\_in[[}\StringTok{"file"}\NormalTok{]]), }
+                   \StringTok{"\_depth\_a\_plot\_"}\NormalTok{, }\StringTok{".pdf"}\NormalTok{)}
+\FunctionTok{ggsave}\NormalTok{(}\AttributeTok{filename =}\NormalTok{ file\_out, }\AttributeTok{plot =}\NormalTok{ p3, }\AttributeTok{path =}\NormalTok{ dir\_out, }
+       \AttributeTok{device =} \StringTok{"pdf"}\NormalTok{, }
+       \AttributeTok{width =} \DecValTok{25}\NormalTok{, }\AttributeTok{height =} \DecValTok{17}\NormalTok{, }\AttributeTok{units =} \StringTok{"cm"}\NormalTok{)}
+
+
+\NormalTok{depth[[}\StringTok{"Raw\_material"}\NormalTok{]] }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(depth[[}\StringTok{"Raw\_material"}\NormalTok{]])}
+\CommentTok{\#Royal1 = c("\#899DA4", "\#C93312", "\#FAEFD1", "\#DC863B")}
+\NormalTok{custom.col7 }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{type =} \FunctionTok{levels}\NormalTok{(depth}\SpecialCharTok{$}\NormalTok{Raw\_material), }
+                         \AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"\#899DA4"}\NormalTok{, }\StringTok{"\#DC863B"}\NormalTok{)) }
+\NormalTok{depth}\SpecialCharTok{$}\NormalTok{col }\OtherTok{\textless{}{-}}\NormalTok{ custom.col7[depth}\SpecialCharTok{$}\NormalTok{Raw\_material, }\StringTok{"col"}\NormalTok{]}
+
+
+\CommentTok{\# plots all depth points in one facet plot (contact material separated)}
+\NormalTok{p4 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ depth, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Contact\_material, }
+                               \AttributeTok{y =}\NormalTok{ Depth.abs.depth, }\AttributeTok{colour =} 
+\NormalTok{                                 Raw\_material)) }\SpecialCharTok{+}
+       \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{y =} \StringTok{"Absolute depth (mm)"}\NormalTok{) }\SpecialCharTok{+}
+       \FunctionTok{scale\_colour\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ custom.col7}\SpecialCharTok{$}\NormalTok{col) }\SpecialCharTok{+}
+       \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{Raw\_material, }\AttributeTok{strip.position =} \StringTok{"bottom"}\NormalTok{) }\SpecialCharTok{+}
+       \CommentTok{\# avoids overplotting of the labels (sample IDs)}
+       \FunctionTok{geom\_text\_repel}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label=}\NormalTok{Sample), }\AttributeTok{size =} \DecValTok{2}\NormalTok{, }
+                       \AttributeTok{nudge\_x =} \SpecialCharTok{{-}}\FloatTok{0.4}\NormalTok{, }
+                       \AttributeTok{segment.size =} \FloatTok{0.1}\NormalTok{, }\AttributeTok{force =} \DecValTok{2}\NormalTok{, }
+                       \AttributeTok{seed =} \DecValTok{123}\NormalTok{) }\SpecialCharTok{+}
+       \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{trans =} \StringTok{"reverse"}\NormalTok{) }\SpecialCharTok{+}
+       \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{position =}\StringTok{"top"}\NormalTok{) }\SpecialCharTok{+}
+       \CommentTok{\# removes the "\_" between "Contact\_material in the legend }
+       \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Contact material"}\NormalTok{) }\SpecialCharTok{+} 
+         \FunctionTok{theme\_classic}\NormalTok{() }\SpecialCharTok{+}
+       \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_blank}\NormalTok{(), }\AttributeTok{axis.ticks =} \FunctionTok{element\_blank}\NormalTok{()) }\SpecialCharTok{+}
+       \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"none"}\NormalTok{) }
+      
+\FunctionTok{print}\NormalTok{(p4)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{2_Plots_inotec_files/figure-latex/unnamed-chunk-7-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# save to PDF}
+\NormalTok{file\_out }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\FunctionTok{file\_path\_sans\_ext}\NormalTok{(info\_in[[}\StringTok{"file"}\NormalTok{]]), }
+                   \StringTok{"\_depth\_b\_plot\_"}\NormalTok{, }\StringTok{".pdf"}\NormalTok{)}
+\FunctionTok{ggsave}\NormalTok{(}\AttributeTok{filename =}\NormalTok{ file\_out, }\AttributeTok{plot =}\NormalTok{ p4, }\AttributeTok{path =}\NormalTok{ dir\_out, }
+       \AttributeTok{device =} \StringTok{"pdf"}\NormalTok{, }
+       \AttributeTok{width =} \DecValTok{25}\NormalTok{, }\AttributeTok{height =} \DecValTok{17}\NormalTok{, }\AttributeTok{units =} \StringTok{"cm"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The files will be saved as ``\textasciitilde/../plots.{[}ext{]}''.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{0.06}}@{}}
+\toprule
+\endhead
+\# Save data \#\# Write to XLSX (summary statistics) \\
+\texttt{r\ write.xlsx(list(depth\ =\ depth,\ depth\_good\ =\ depth\_good),\ file\ =\ paste0(dir\_out,\ file\_out,\ ".xlsx"))} \\
+\texttt{Error\ in\ buildWorkbook(x,\ asTable\ =\ asTable,\ ...):\ object\ \textquotesingle{}depth\_good\textquotesingle{}\ not\ found} \\
+\bottomrule
+\end{longtable}
+
+\hypertarget{sessioninfo-and-rstudio-version}{%
+\section{sessionInfo() and RStudio
+version}\label{sessioninfo-and-rstudio-version}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sessionInfo}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+R version 4.1.0 (2021-05-18)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19043)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
+
+attached base packages:
+[1] tools     stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] openxlsx_4.2.4    ggrepel_0.9.1     doBy_4.6.11       patchwork_1.1.1  
+ [5] forcats_0.5.1     stringr_1.4.0     dplyr_1.0.7       purrr_0.3.4      
+ [9] readr_1.4.0       tidyr_1.1.3       tibble_3.1.2      tidyverse_1.3.1  
+[13] ggplot2_3.3.5     R.utils_2.10.1    R.oo_1.24.0       R.methodsS3_1.8.1
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.7           lubridate_1.7.10     curry_0.1.1         
+ [4] lattice_0.20-44      assertthat_0.2.1     digest_0.6.27       
+ [7] utf8_1.2.1           R6_2.5.0             cellranger_1.1.0    
+[10] backports_1.2.1      reprex_2.0.0         evaluate_0.14       
+[13] highr_0.9            httr_1.4.2           pillar_1.6.1        
+[16] rlang_0.4.11         readxl_1.3.1         rstudioapi_0.13     
+[19] Matrix_1.3-3         rmarkdown_2.9        labeling_0.4.2      
+[22] munsell_0.5.0        broom_0.7.8          compiler_4.1.0      
+[25] Deriv_4.1.3          modelr_0.1.8         xfun_0.24           
+[28] microbenchmark_1.4-7 pkgconfig_2.0.3      htmltools_0.5.1.1   
+[31] tidyselect_1.1.1     fansi_0.5.0          crayon_1.4.1        
+[34] dbplyr_2.1.1         withr_2.4.2          MASS_7.3-54         
+[37] grid_4.1.0           jsonlite_1.7.2       gtable_0.3.0        
+[40] lifecycle_1.0.0      DBI_1.1.1            magrittr_2.0.1      
+[43] scales_1.1.1         zip_2.2.0            cli_3.0.1           
+[46] stringi_1.6.2        farver_2.1.0         fs_1.5.0            
+[49] xml2_1.3.2           ellipsis_0.3.2       generics_0.1.0      
+[52] vctrs_0.3.8          glue_1.4.2           hms_1.1.0           
+[55] yaml_2.2.1           colorspace_2.0-2     rvest_1.0.0         
+[58] knitr_1.33           haven_2.4.1         
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+END OF SCRIPT
+
+\end{document}

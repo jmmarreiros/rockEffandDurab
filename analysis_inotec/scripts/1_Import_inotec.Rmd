@@ -2,7 +2,10 @@
 title: "Import SMARTTESTER datasets"
 author: "Joao Marreiros and David Nora"
 date: "`r Sys.time()`"
-output: word_document
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
 ---
 
 ```{r Knitr Options, include = FALSE}
@@ -113,8 +116,12 @@ for (s in seq_along(samples_names)) {
               unique()
   
   # Takes the information about the raw material
-  raw_mat <- ifelse(grepl("FLT", names(sampl)[s]), "Flint", "Lydite")
+  #raw_mat <- ifelse(grepl("FLT", names(sampl)[s]), "Flint", "Lydite")
 
+  if(grepl("FLT", names(sampl)[s]) == TRUE) raw_mat <- "Flint"
+  if(grepl("OBS", names(sampl)[s]) == TRUE) raw_mat <- "Obsidian"
+  if(grepl("QTZ", names(sampl)[s]) == TRUE) raw_mat <- "Quatzite"
+  if(grepl("DAC", names(sampl)[s]) == TRUE) raw_mat <- "Dacite"
   
   # Create named list, 1 element for each sensor ("Messung")
   sampl[[s]] <- vector(mode = "list", length = nrow(sensors))

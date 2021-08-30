@@ -1,0 +1,401 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Import SMARTTESTER datasets},
+  pdfauthor={Joao Marreiros and David Nora},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Import SMARTTESTER datasets}
+\author{Joao Marreiros and David Nora}
+\date{2021-07-23 09:58:51}
+
+\begin{document}
+\maketitle
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{goal-of-the-script}{%
+\section{Goal of the script}\label{goal-of-the-script}}
+
+This script imports and merges all single TXT-files (strokes + sensors)
+produced with the Inotec Smarttester. The experiment involved 12 samples
+(3 samples from each 4 raw materials) which have been used in four
+cycles (0-250, 250-500, and 500-1000 strokes) respectively. The script
+will:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Read in the original TXT-files\\
+\item
+  Format and merge the data for each sample
+\item
+  Combine the data from the 12 samples into one
+\item
+  Write an XLSX-file and save an R object ready for further analysis in
+  R
+\end{enumerate}
+
+This script is an adapted from\ldots{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dir\_in }\OtherTok{\textless{}{-}} \StringTok{"../raw\_data/"}
+\NormalTok{dir\_out }\OtherTok{\textless{}{-}} \StringTok{"../derived\_data/"}
+\end{Highlighting}
+\end{Shaded}
+
+Raw data must be located in ``../raw\_data/''.\\
+Formatted data will be saved in ``../derived\_data/''. The knit
+directory for this script is the project directory.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{load-packages}{%
+\section{Load packages}\label{load-packages}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(R.utils)}
+\FunctionTok{library}\NormalTok{(openxlsx)}
+\FunctionTok{library}\NormalTok{(tools)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{list-all-files-and-get-names-of-the-files}{%
+\section{List all files and get names of the
+files}\label{list-all-files-and-get-names-of-the-files}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# List all CSV files in dir\_in}
+\NormalTok{TXT\_files }\OtherTok{\textless{}{-}} \FunctionTok{list.files}\NormalTok{(dir\_in, }\AttributeTok{pattern =} \StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{.txt$"}\NormalTok{, }\AttributeTok{recursive =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{full.names =} \ConstantTok{TRUE}\NormalTok{)}
+
+\CommentTok{\# Extract sample names from paths}
+\NormalTok{samples\_names }\OtherTok{\textless{}{-}} \FunctionTok{dirname}\NormalTok{(}\FunctionTok{dirname}\NormalTok{(}\FunctionTok{dirname}\NormalTok{(TXT\_files))) }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\# Path of folder 3 levels higher}
+                 \FunctionTok{basename}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}                           \CommentTok{\# Name of folder 3 levels higher}
+                 \FunctionTok{unique}\NormalTok{()                                 }\CommentTok{\# Unique names}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{define-sensors}{%
+\section{Define sensors}\label{define-sensors}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sensors }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{mess =} \FunctionTok{paste0}\NormalTok{(}\StringTok{"Messung"}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{), }
+                      \AttributeTok{meas =} \FunctionTok{c}\NormalTok{(}\StringTok{"Force"}\NormalTok{, }\StringTok{"Friction"}\NormalTok{, }\StringTok{"Depth"}\NormalTok{, }\StringTok{"Position"}\NormalTok{, }\StringTok{"Velocity"}\NormalTok{), }
+                      \AttributeTok{unit =} \FunctionTok{c}\NormalTok{(}\StringTok{"N"}\NormalTok{, }\StringTok{"N"}\NormalTok{, }\StringTok{"mm"}\NormalTok{, }\StringTok{"mm"}\NormalTok{, }\StringTok{"mm/s"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{merge-all-files-and-format-the-data}{%
+\section{Merge all files and format the
+data}\label{merge-all-files-and-format-the-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create named list, 1 element for each sample}
+\NormalTok{sampl }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\AttributeTok{mode =} \StringTok{"list"}\NormalTok{, }\AttributeTok{length =} \FunctionTok{length}\NormalTok{(samples\_names)) }
+\FunctionTok{names}\NormalTok{(sampl) }\OtherTok{\textless{}{-}}\NormalTok{ samples\_names}
+
+\CommentTok{\# For each sample}
+\ControlFlowTok{for}\NormalTok{ (s }\ControlFlowTok{in} \FunctionTok{seq\_along}\NormalTok{(samples\_names)) \{}
+  
+  \CommentTok{\# Gets information through the path name and defines the cycle, raw material and }
+  \CommentTok{\# contact material}
+\NormalTok{  folder }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(samples\_names[s], }\StringTok{"/"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+            \FunctionTok{grep}\NormalTok{(TXT\_files, }\AttributeTok{value =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+            \FunctionTok{dirname}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+            \FunctionTok{dirname}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+            \FunctionTok{unique}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+            \FunctionTok{basename}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+            \FunctionTok{strsplit}\NormalTok{(., }\StringTok{"\_"}\NormalTok{) }
+  
+\NormalTok{  cycles }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(folder, }\AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(x) x[[}\DecValTok{3}\NormalTok{]])}
+  \CommentTok{\# Defines the number of the first stroke per cycle based on the name from the folders}
+\NormalTok{  cycle\_start }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"{-}.*$"}\NormalTok{, }\StringTok{""}\NormalTok{, }\AttributeTok{x =}\NormalTok{ cycles) }\SpecialCharTok{\%\textgreater{}\%} 
+                 \CommentTok{\# Converts into numeric             }
+                 \FunctionTok{as.numeric}\NormalTok{()}
+  
+  \CommentTok{\# Orders the cycles}
+\NormalTok{  order\_cycles }\OtherTok{\textless{}{-}} \FunctionTok{order}\NormalTok{(cycle\_start)}
+\NormalTok{  cycle\_start }\OtherTok{\textless{}{-}}\NormalTok{ cycle\_start[order\_cycles]}
+\NormalTok{  cycle\_start[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{  cycles }\OtherTok{\textless{}{-}}\NormalTok{ cycles[order\_cycles]}
+  
+  \CommentTok{\# Takes the information about the contact material}
+\NormalTok{  cont\_mat }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(folder, }\AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(x) x[[}\DecValTok{2}\NormalTok{]]) }\SpecialCharTok{\%\textgreater{}\%} 
+              \FunctionTok{unique}\NormalTok{()}
+  
+  \CommentTok{\# Takes the information about the raw material}
+  \CommentTok{\#raw\_mat \textless{}{-} ifelse(grepl("FLT", names(sampl)[s]), "Flint", "Lydite")}
+
+  \ControlFlowTok{if}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(}\StringTok{"FLT"}\NormalTok{, }\FunctionTok{names}\NormalTok{(sampl)[s]) }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{) raw\_mat }\OtherTok{\textless{}{-}} \StringTok{"Flint"}
+  \ControlFlowTok{if}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(}\StringTok{"OBS"}\NormalTok{, }\FunctionTok{names}\NormalTok{(sampl)[s]) }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{) raw\_mat }\OtherTok{\textless{}{-}} \StringTok{"Obsidian"}
+  \ControlFlowTok{if}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(}\StringTok{"QTZ"}\NormalTok{, }\FunctionTok{names}\NormalTok{(sampl)[s]) }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{) raw\_mat }\OtherTok{\textless{}{-}} \StringTok{"Quatzite"}
+  \ControlFlowTok{if}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(}\StringTok{"DAC"}\NormalTok{, }\FunctionTok{names}\NormalTok{(sampl)[s]) }\SpecialCharTok{==} \ConstantTok{TRUE}\NormalTok{) raw\_mat }\OtherTok{\textless{}{-}} \StringTok{"Dacite"}
+  
+  \CommentTok{\# Create named list, 1 element for each sensor ("Messung")}
+\NormalTok{  sampl[[s]] }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\AttributeTok{mode =} \StringTok{"list"}\NormalTok{, }\AttributeTok{length =} \FunctionTok{nrow}\NormalTok{(sensors))}
+  \FunctionTok{names}\NormalTok{(sampl[[s]]) }\OtherTok{\textless{}{-}}\NormalTok{ sensors [[}\StringTok{"meas"}\NormalTok{]]}
+  
+  \CommentTok{\# For each sensor ("Messung")}
+  \ControlFlowTok{for}\NormalTok{ (m }\ControlFlowTok{in} \FunctionTok{seq\_along}\NormalTok{(sampl[[s]])) \{}
+      
+    \CommentTok{\# Extract file names of all strokes for the given sensor}
+    \CommentTok{\# Paste sample name and slash to avoid partial matching}
+\NormalTok{    s\_m }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(samples\_names[[s]], }\StringTok{"/"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+           \CommentTok{\# Extract sample "s" from all files}
+           \FunctionTok{grep}\NormalTok{(TXT\_files, }\AttributeTok{value =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+           \CommentTok{\# Extract sensor "m" from sample "s"}
+           \FunctionTok{grep}\NormalTok{(sensors[[}\StringTok{"mess"}\NormalTok{]][m], ., }\AttributeTok{value =} \ConstantTok{TRUE}\NormalTok{) }
+    
+    \CommentTok{\# Create named list, 1 element for each stroke bin}
+\NormalTok{    sampl[[s]][[m]] }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\AttributeTok{mode =} \StringTok{"list"}\NormalTok{, }\AttributeTok{length =} \FunctionTok{length}\NormalTok{(cycles))}
+    \FunctionTok{names}\NormalTok{(sampl[[s]][[m]]) }\OtherTok{\textless{}{-}}\NormalTok{ cycles}
+    
+    \CommentTok{\# For each cycle}
+    \ControlFlowTok{for}\NormalTok{ (cy }\ControlFlowTok{in} \FunctionTok{seq\_along}\NormalTok{(sampl[[s]][[m]])) \{}
+      
+      \CommentTok{\# Extract file names of all strokes for each cycle}
+\NormalTok{      s\_m\_cy }\OtherTok{\textless{}{-}} \FunctionTok{grep}\NormalTok{(cycles[cy], s\_m, }\AttributeTok{value =} \ConstantTok{TRUE}\NormalTok{)}
+     
+      \CommentTok{\# Create named list, 1 element for each stroke}
+\NormalTok{      sampl[[s]][[m]][[cy]] }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\AttributeTok{mode =} \StringTok{"list"}\NormalTok{, }\AttributeTok{length =} \FunctionTok{length}\NormalTok{(s\_m\_cy))}
+      \FunctionTok{names}\NormalTok{(sampl[[s]][[m]][[cy]]) }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\StringTok{"Stroke"}\NormalTok{, }\FunctionTok{seq\_along}\NormalTok{(s\_m\_cy))}
+      
+      \CommentTok{\# For each stroke}
+      \ControlFlowTok{for}\NormalTok{ (st }\ControlFlowTok{in} \FunctionTok{seq\_along}\NormalTok{(s\_m\_cy)) \{}
+     
+        \CommentTok{\# Read in TXT file}
+\NormalTok{        sampl[[s]][[m]][[cy]][[st]] }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(s\_m\_cy[st], }\AttributeTok{skip =} \DecValTok{4}\NormalTok{, }\AttributeTok{sep =} \StringTok{";"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+          
+          \CommentTok{\# Add columns Step based on V2 and Stroke based on "st"}
+          \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Step =}\NormalTok{ V2}\SpecialCharTok{/}\DecValTok{100000}\SpecialCharTok{+}\DecValTok{1}\NormalTok{, }\AttributeTok{Stroke =}\NormalTok{ st }\SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ cycle\_start[cy]) }\SpecialCharTok{\%\textgreater{}\%}    
+          
+          \CommentTok{\# Select columns stroke, step, V1}
+          \FunctionTok{select}\NormalTok{(Stroke, Step, V1)}
+        
+        \CommentTok{\# Rename column V1 based on "m"}
+        \FunctionTok{names}\NormalTok{(sampl[[s]][[m]][[cy]][[st]])[}\DecValTok{3}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ sensors[m, }\StringTok{"meas"}\NormalTok{] }
+\NormalTok{      \}}
+      
+      \CommentTok{\# rbind all files per cycle}
+\NormalTok{      sampl[[s]][[m]][[cy]] }\OtherTok{\textless{}{-}} \FunctionTok{do.call}\NormalTok{(rbind, sampl[[s]][[m]][[cy]])}
+\NormalTok{    \}}
+    
+    \CommentTok{\# rbind all cycles per sensor}
+\NormalTok{    sampl[[s]][[m]] }\OtherTok{\textless{}{-}} \FunctionTok{do.call}\NormalTok{(rbind, sampl[[s]][[m]])}
+\NormalTok{  \}}
+  
+  \CommentTok{\# rbind all sensors per sample}
+\NormalTok{  sampl[[s]] }\OtherTok{\textless{}{-}} \FunctionTok{full\_join}\NormalTok{(sampl[[s]][[}\DecValTok{1}\NormalTok{]], sampl[[s]][[}\DecValTok{2}\NormalTok{]]) }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{full\_join}\NormalTok{(sampl[[s]][[}\DecValTok{3}\NormalTok{]]) }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{full\_join}\NormalTok{(sampl[[s]][[}\DecValTok{4}\NormalTok{]]) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{full\_join}\NormalTok{(sampl[[s]][[}\DecValTok{5}\NormalTok{]]) }\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Sample =} \FunctionTok{names}\NormalTok{(sampl)[s], }\AttributeTok{Raw\_material =}\NormalTok{ raw\_mat, }
+           \AttributeTok{Contact\_material =}\NormalTok{ cont\_mat) }\SpecialCharTok{\%\textgreater{}\%}
+    
+    \FunctionTok{select}\NormalTok{(Sample, Raw\_material, Contact\_material, }\FunctionTok{everything}\NormalTok{())}
+\NormalTok{\}}
+
+\CommentTok{\# rbind all samples }
+\NormalTok{sampl }\OtherTok{\textless{}{-}} \FunctionTok{do.call}\NormalTok{(rbind, sampl)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{save-data}{%
+\section{Save data}\label{save-data}}
+
+\hypertarget{format-name-of-output-file}{%
+\subsection{Format name of output
+file}\label{format-name-of-output-file}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{file\_out }\OtherTok{\textless{}{-}} \StringTok{"sampl"}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{write-to-xlsx}{%
+\subsection{Write to XLSX}\label{write-to-xlsx}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{write.xlsx}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{data =}\NormalTok{ sampl, }\AttributeTok{units =}\NormalTok{ sensors), }\AttributeTok{file =} \FunctionTok{paste0}\NormalTok{(dir\_out, file\_out, }\StringTok{".xlsx"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Error in saveWorkbook(wb, file = file, overwrite = overwrite): File already exists!
+\end{verbatim}
+
+\hypertarget{save-r-object}{%
+\subsection{Save R object}\label{save-r-object}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{saveObject}\NormalTok{(sampl, }\AttributeTok{file =} \FunctionTok{paste0}\NormalTok{(dir\_out, file\_out, }\StringTok{".Rbin"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{sessioninfo-and-rstudio-version}{%
+\section{sessionInfo() and RStudio
+version}\label{sessioninfo-and-rstudio-version}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sessionInfo}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+R version 4.1.0 (2021-05-18)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19043)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
+
+attached base packages:
+[1] tools     stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] openxlsx_4.2.4    R.utils_2.10.1    R.oo_1.24.0       R.methodsS3_1.8.1
+ [5] forcats_0.5.1     stringr_1.4.0     dplyr_1.0.7       purrr_0.3.4      
+ [9] readr_1.4.0       tidyr_1.1.3       tibble_3.1.2      ggplot2_3.3.5    
+[13] tidyverse_1.3.1  
+
+loaded via a namespace (and not attached):
+ [1] tidyselect_1.1.1  xfun_0.24         haven_2.4.1       colorspace_2.0-2 
+ [5] vctrs_0.3.8       generics_0.1.0    htmltools_0.5.1.1 yaml_2.2.1       
+ [9] utf8_1.2.1        rlang_0.4.11      pillar_1.6.1      glue_1.4.2       
+[13] withr_2.4.2       DBI_1.1.1         dbplyr_2.1.1      modelr_0.1.8     
+[17] readxl_1.3.1      lifecycle_1.0.0   munsell_0.5.0     gtable_0.3.0     
+[21] cellranger_1.1.0  zip_2.2.0         rvest_1.0.0       evaluate_0.14    
+[25] knitr_1.33        fansi_0.5.0       broom_0.7.8       Rcpp_1.0.7       
+[29] scales_1.1.1      backports_1.2.1   jsonlite_1.7.2    fs_1.5.0         
+[33] hms_1.1.0         digest_0.6.27     stringi_1.6.2     grid_4.1.0       
+[37] cli_3.0.1         magrittr_2.0.1    crayon_1.4.1      pkgconfig_2.0.3  
+[41] ellipsis_0.3.2    xml2_1.3.2        reprex_2.0.0      lubridate_1.7.10 
+[45] assertthat_0.2.1  rmarkdown_2.9     httr_1.4.2        rstudioapi_0.13  
+[49] R6_2.5.0          compiler_4.1.0   
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+END OF SCRIPT
+
+\end{document}
